@@ -1,0 +1,10 @@
+https://docs.story.foundation/sdk-reference/python/overview
+https://docs.story.foundation/sdk-reference/python/ipasset
+https://docs.story.foundation/sdk-reference/python/ipaccount
+https://docs.story.foundation/sdk-reference/python/license
+https://docs.story.foundation/sdk-reference/python/royalty
+https://docs.story.foundation/sdk-reference/python/dispute
+https://docs.story.foundation/sdk-reference/python/group
+https://docs.story.foundation/sdk-reference/python/permissions
+https://docs.story.foundation/sdk-reference/python/nftclient
+https://docs.story.foundation/sdk-reference/python/wipclient

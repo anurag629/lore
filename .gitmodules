@@ -1,0 +1,6 @@
+[submodule "lore_frontend"]
+	path = lore_frontend
+	url = https://github.com/anurag629/lore_frontend.git
+[submodule "lore_backend"]
+	path = lore_backend
+	url = https://github.com/anurag629/lore_backend.git

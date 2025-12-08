@@ -1,5 +1,11 @@
 # Lore (Wrapper Repository)
 
+[![Hackathon](https://img.shields.io/badge/Encode%20Club-Surreal%20World%20Assets%20Buildathon-9A3CFF)](https://www.encodeclub.com/programmes/surreal-world-assets-buildathon-2)
+[![Frontend](https://img.shields.io/badge/frontend-lore__frontend-0A7EA4?logo=github&logoColor=white)](https://github.com/anurag629/lore_frontend)
+[![Backend](https://img.shields.io/badge/backend-lore__backend-3E7D28?logo=github&logoColor=white)](https://github.com/anurag629/lore_backend)
+[![Submodules](https://img.shields.io/badge/git-submodules-555?logo=git&logoColor=white)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+[![Clone Recursive](https://img.shields.io/badge/clone---recursive-2ea44f?logo=git&logoColor=white)](#clone-with-submodules)
+
 This is the wrapper repo for the Surreal World Assets Buildathon project. It tracks the frontend and backend as submodules so judges and collaborators can pull everything from a single place.
 
 ## Repos

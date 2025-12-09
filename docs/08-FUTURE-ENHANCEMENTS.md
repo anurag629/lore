@@ -733,6 +733,10 @@ Enterprise ($999/month):
 - [ ] Mobile responsiveness improvements
 - [ ] Email notifications
 - [x] Bug fixes and performance optimization ✅ COMPLETED
+- [x] GenealogyGraph tree layout visualization ✅ COMPLETED
+- [x] Multi-parent derivative support improvements ✅ COMPLETED
+- [x] Dashboard derivative display fixes ✅ COMPLETED
+- [x] IP Account Permissions system ✅ COMPLETED
 
 **Goal:** 10,000 users, 90% user satisfaction
 
@@ -838,6 +842,6 @@ The **Lore** platform has a clear roadmap to evolve from a hackathon prototype t
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** December 2024
+**Document Version:** 1.1
+**Last Updated:** December 2025
 **Status:** Living Document (updated quarterly)

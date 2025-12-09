@@ -17,6 +17,8 @@ This document provides comprehensive documentation for all frontend components i
 7. [Profile Components](#profile-components)
 8. [Layout Components](#layout-components)
 9. [Keyboard Shortcuts](#keyboard-shortcuts)
+10. [Dashboard Components](#dashboard-components)
+11. [Collections Components](#collections-components)
 
 ---
 
@@ -618,6 +620,80 @@ const { openMintModal, closeMintModal } = useKeyboardShortcutsContext();
 
 ---
 
+## Dashboard Components
+
+### GenealogyGraph
+
+**Location:** `components/dashboard/GenealogyGraph.tsx`
+
+**Purpose:** Interactive genealogy visualization for IP assets showing parent-child derivative relationships using ReactFlow.
+
+**Props:**
+```typescript
+interface GenealogyGraphProps {
+  assets: IPAssetListItem[];
+}
+```
+
+**Features:**
+- Hierarchical tree layout with proper centering
+- Custom asset nodes with thumbnails and status indicators
+- Interactive pan and zoom controls
+- Click nodes to view asset details in sidebar
+- Expandable full-screen mode
+- Visual legend for original vs derivative assets
+- Animated edges showing lineage connections
+- Handles orphan derivatives (derivatives whose parent isn't in the list)
+
+**Layout Algorithm:**
+- Uses recursive subtree width calculation for proper centering
+- Horizontal spacing: 280px between siblings
+- Vertical spacing: 150px between levels
+- Nodes are positioned using `positionSubtree()` function
+
+**Node Data:**
+```typescript
+{
+  title: string;
+  media_url: string;
+  derivativeCount: number;
+  isDerivative: boolean;
+  isRoot: boolean;
+  status: 'registered' | 'pending' | 'retrying' | 'failed';
+  asset: IPAssetListItem;
+}
+```
+
+**Usage:**
+```typescript
+import GenealogyGraph from '@/components/dashboard/GenealogyGraph';
+import { useDashboardStats } from '@/hooks/useDashboardStats';
+
+function Dashboard() {
+  const { genealogyAssets } = useDashboardStats();
+
+  return (
+    <GenealogyGraph assets={genealogyAssets} />
+  );
+}
+```
+
+**Integration with useDashboardStats:**
+The component is designed to work with the `genealogyAssets` array from `useDashboardStats` hook, which includes:
+- User's own assets (both original and derivatives)
+- External derivatives of the user's original assets
+
+**Visual Elements:**
+- Original assets: Amber border (`border-amber-500/50`)
+- Derivative assets: Blue border (`border-blue-500/50`)
+- Registration status indicators: Green (registered), Yellow (pending), Red (failed)
+- Animated edges with arrow markers showing parent → child flow
+
+**Empty State:**
+Displays a helpful message when no assets are available to visualize.
+
+---
+
 ## Collections Components
 
 ### CollectionModal
@@ -769,6 +845,6 @@ test('renders button', () => {
 
 ---
 
-**Last Updated:** January 2025  
+**Last Updated:** December 2025
 **Related:** [API Documentation](./06-API-DOCUMENTATION.md) | [Implementation Guide](./04-IMPLEMENTATION.md)
 

@@ -26,7 +26,7 @@ IP Account Permissions allow asset creators to grant specific permissions to oth
 ### Key Concepts
 
 - **Permissioned Address**: The Ethereum address that receives the permission
-- **Permission Type**: The specific action allowed (signer, register_derivative, etc.)
+- **Permission Type**: The specific action allowed (execute, register_derivative, collect_royalty, etc.)
 - **Asset Creator**: The original creator who can grant/revoke permissions
 - **On-Chain**: All permissions are stored on the blockchain via Story Protocol
 
@@ -34,16 +34,43 @@ IP Account Permissions allow asset creators to grant specific permissions to oth
 
 ## Permission Types
 
-### 1. Signer (`signer`)
+### 1. Execute (`execute`)
 
-Allows the address to **sign transactions** on behalf of the IP asset.
+Allows the address to **execute transactions** on behalf of the IP asset.
 
 **Use Cases:**
-- Delegate signing authority to a manager or agent
-- Enable automated systems to sign transactions
-- Allow collaborators to sign on your behalf
+- Delegate transaction authority to a manager or agent
+- Enable automated systems to execute transactions
+- Allow collaborators to act on your behalf
 
-### 2. Register Derivative (`register_derivative`)
+### 2. Transfer ERC20 (`transfer_erc20`)
+
+Allows the address to **transfer ERC20 tokens** held by the IP account.
+
+**Use Cases:**
+- Enable managers to move tokens for royalty distribution
+- Allow automated systems to transfer earned royalties
+- Delegate token management to a trusted party
+
+### 3. Set Metadata (`set_metadata`)
+
+Allows the address to **update metadata** for the IP asset.
+
+**Use Cases:**
+- Allow collaborators to update asset information
+- Enable managers to maintain asset metadata
+- Delegate content updates to team members
+
+### 4. Attach License (`attach_license`)
+
+Allows the address to **attach license terms** to the IP asset.
+
+**Use Cases:**
+- Allow partners to set licensing terms
+- Enable automated licensing systems
+- Delegate license management to legal teams
+
+### 5. Register Derivative (`register_derivative`)
 
 Allows the address to **register derivatives** of the IP asset.
 
@@ -52,14 +79,14 @@ Allows the address to **register derivatives** of the IP asset.
 - Enable community members to create authorized remixes
 - Delegate derivative creation to a partner
 
-### 3. Register Derivative with Attribution (`register_derivative_with_attribution`)
+### 6. Collect Royalty (`collect_royalty`)
 
-Allows the address to **register derivatives with attribution** to the original asset.
+Allows the address to **collect royalties** earned by the IP asset.
 
 **Use Cases:**
-- Enable derivative creation with proper attribution
-- Allow partners to create derivatives while maintaining attribution
-- Support collaborative derivative projects
+- Allow managers to collect and distribute royalties
+- Enable automated royalty collection systems
+- Delegate financial operations to trusted parties
 
 ---
 
@@ -77,7 +104,7 @@ Content-Type: application/json
 {
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
-  "permission_type": "signer"
+  "permission_type": "execute"
 }
 ```
 
@@ -93,7 +120,7 @@ Content-Type: application/json
       "title": "Mystical Forest Path"
     },
     "permissioned_address": "0xabc123...",
-    "permission_type": "signer",
+    "permission_type": "execute",
     "is_active": true,
     "granted_at": "2024-12-04T10:30:00Z"
   },
@@ -114,9 +141,12 @@ Content-Type: application/json
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
   "permissions": {
-    "signer": true,
+    "execute": true,
+    "transfer_erc20": false,
+    "set_metadata": false,
+    "attach_license": false,
     "register_derivative": true,
-    "register_derivative_with_attribution": false
+    "collect_royalty": false
   }
 }
 ```
@@ -128,15 +158,27 @@ Content-Type: application/json
   "message": "All permissions set successfully",
   "permissions": [
     {
-      "permission_type": "signer",
+      "permission_type": "execute",
       "is_active": true
+    },
+    {
+      "permission_type": "transfer_erc20",
+      "is_active": false
+    },
+    {
+      "permission_type": "set_metadata",
+      "is_active": false
+    },
+    {
+      "permission_type": "attach_license",
+      "is_active": false
     },
     {
       "permission_type": "register_derivative",
       "is_active": true
     },
     {
-      "permission_type": "register_derivative_with_attribution",
+      "permission_type": "collect_royalty",
       "is_active": false
     }
   ],
@@ -158,7 +200,7 @@ Content-Type: application/json
 {
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
-  "permission_type": "signer"
+  "permission_type": "execute"
 }
 ```
 
@@ -223,7 +265,7 @@ Authorization: Bearer <token>
   "has_permission": true,
   "permission": {
     "uuid": "...",
-    "permission_type": "signer",
+    "permission_type": "execute",
     "is_active": true,
     "granted_at": "2024-12-04T10:30:00Z"
   }
@@ -249,12 +291,15 @@ Authorization: Bearer <token>
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
   "permissions": {
-    "signer": true,
+    "execute": true,
+    "transfer_erc20": false,
+    "set_metadata": false,
+    "attach_license": false,
     "register_derivative": true,
-    "register_derivative_with_attribution": false
+    "collect_royalty": false
   },
   "active_count": 2,
-  "total_count": 3
+  "total_count": 6
 }
 ```
 
@@ -276,7 +321,7 @@ Authorization: Bearer <token>
     {
       "uuid": "...",
       "permissioned_address": "0xabc123...",
-      "permission_type": "signer",
+      "permission_type": "execute",
       "is_active": true,
       "granted_at": "2024-12-04T10:30:00Z"
     }
@@ -307,12 +352,14 @@ Authorization: Bearer <token>
 #### IPAccountPermission
 - `uuid` - Public UUID
 - `asset` - Foreign key to IPAsset
-- `permissioned_address` - Address with permission
-- `permission_type` - signer/register_derivative/register_derivative_with_attribution
-- `is_active` - Active status
+- `grantee_address` - Address with permission
+- `permission_type` - execute/transfer_erc20/set_metadata/attach_license/register_derivative/collect_royalty
+- `is_granted` - Whether permission is currently granted
+- `expires_at` - When permission expires (null = no expiration)
 - `granted_by` - User who granted permission
-- `granted_at` - When permission was granted
-- `revoked_at` - When permission was revoked (if revoked)
+- `transaction_hash` - Blockchain transaction hash
+- `created_at` - When permission was created
+- `updated_at` - When permission was last updated
 
 ---
 
@@ -331,13 +378,13 @@ await setPermission(assetUuid, artistBAddress, 'register_derivative');
 
 ### 2. Delegation
 
-**Scenario:** An artist delegates signing authority to their manager.
+**Scenario:** An artist delegates transaction authority to their manager.
 
 ```typescript
-// Grant signer permission to manager
-await setPermission(assetUuid, managerAddress, 'signer');
+// Grant execute permission to manager
+await setPermission(assetUuid, managerAddress, 'execute');
 
-// Manager can now sign transactions on behalf of the artist
+// Manager can now execute transactions on behalf of the artist
 ```
 
 ### 3. Community Remixes
@@ -346,20 +393,31 @@ await setPermission(assetUuid, managerAddress, 'signer');
 
 ```typescript
 // Grant derivative permission to community member
-await setPermission(assetUuid, communityMemberAddress, 'register_derivative_with_attribution');
+await setPermission(assetUuid, communityMemberAddress, 'register_derivative');
 
-// Community member can create remixes with proper attribution
+// Community member can create remixes
 ```
 
-### 4. Automated Systems
+### 4. Royalty Collection
+
+**Scenario:** An artist allows their manager to collect royalties.
+
+```typescript
+// Grant collect_royalty permission to manager
+await setPermission(assetUuid, managerAddress, 'collect_royalty');
+
+// Manager can collect royalties on behalf of the artist
+```
+
+### 5. Automated Systems
 
 **Scenario:** An artist uses an automated system to manage their IP assets.
 
 ```typescript
-// Grant signer permission to automated system
-await setPermission(assetUuid, automationAddress, 'signer');
+// Grant execute permission to automated system
+await setPermission(assetUuid, automationAddress, 'execute');
 
-// Automated system can sign transactions automatically
+// Automated system can execute transactions automatically
 ```
 
 ---
@@ -383,7 +441,7 @@ const grantPermission = async (
 };
 
 // Usage
-await grantPermission(assetUuid, '0xabc123...', 'signer');
+await grantPermission(assetUuid, '0xabc123...', 'execute');
 ```
 
 ### Example 2: Grant Multiple Permissions
@@ -393,9 +451,12 @@ const grantAllPermissions = async (
   assetUuid: string,
   address: string,
   permissions: {
-    signer: boolean;
+    execute: boolean;
+    transfer_erc20: boolean;
+    set_metadata: boolean;
+    attach_license: boolean;
     register_derivative: boolean;
-    register_derivative_with_attribution: boolean;
+    collect_royalty: boolean;
   }
 ) => {
   const response = await api.post('/api/permissions/set_all_permissions/', {
@@ -408,9 +469,12 @@ const grantAllPermissions = async (
 
 // Usage
 await grantAllPermissions(assetUuid, '0xabc123...', {
-  signer: true,
+  execute: true,
+  transfer_erc20: false,
+  set_metadata: false,
+  attach_license: false,
   register_derivative: true,
-  register_derivative_with_attribution: false
+  collect_royalty: false
 });
 ```
 
@@ -433,7 +497,7 @@ const checkPermission = async (
 };
 
 // Usage
-const hasPermission = await checkPermission(assetUuid, '0xabc123...', 'signer');
+const hasPermission = await checkPermission(assetUuid, '0xabc123...', 'execute');
 ```
 
 ### Example 4: Revoke Permission
@@ -453,7 +517,7 @@ const revokePermission = async (
 };
 
 // Usage
-await revokePermission(assetUuid, '0xabc123...', 'signer');
+await revokePermission(assetUuid, '0xabc123...', 'execute');
 ```
 
 ---
@@ -464,8 +528,9 @@ await revokePermission(assetUuid, '0xabc123...', 'signer');
 2. **Least Privilege**: Grant only the minimum permissions necessary
 3. **Regular Review**: Periodically review and revoke unnecessary permissions
 4. **Documentation**: Keep records of why permissions were granted
-5. **Security**: Be cautious when granting signer permissions
+5. **Security**: Be cautious when granting execute or collect_royalty permissions
 6. **Revocation**: Have a plan for revoking permissions if needed
+7. **Expiration**: Consider setting expiration dates for temporary permissions
 
 ---
 
@@ -488,13 +553,13 @@ await revokePermission(assetUuid, '0xabc123...', 'signer');
 **Solution:** Verify the asset UUID is correct and the asset exists
 
 ### "Invalid permission type"
-**Solution:** Use one of: `signer`, `register_derivative`, `register_derivative_with_attribution`
+**Solution:** Use one of: `execute`, `transfer_erc20`, `set_metadata`, `attach_license`, `register_derivative`, `collect_royalty`
 
 ### "Blockchain transaction failed"
 **Solution:** Check gas balance, network connection, and try again
 
 ---
 
-**Last Updated:** January 2025  
+**Last Updated:** December 2025
 **Related:** [API Documentation](./06-API-DOCUMENTATION.md) | [Solution Architecture](./03-SOLUTION-ARCHITECTURE.md)
 

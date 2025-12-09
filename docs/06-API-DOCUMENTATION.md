@@ -1687,7 +1687,7 @@ Authorization: Bearer <access_token>
 **Query Parameters:**
 - `asset_uuid` (optional) - Filter by asset UUID
 - `permissioned_address` (optional) - Filter by permissioned address
-- `permission_type` (optional) - Filter by permission type (signer/register_derivative/register_derivative_with_attribution)
+- `permission_type` (optional) - Filter by permission type (execute/transfer_erc20/set_metadata/attach_license/register_derivative/collect_royalty)
 - `is_active` (optional) - Filter by active status (true/false)
 
 **Response:**
@@ -1702,14 +1702,14 @@ Authorization: Bearer <access_token>
         "title": "Mystical Forest Path"
       },
       "permissioned_address": "0xabc123...",
-      "permission_type": "signer",
-      "is_active": true,
+      "permission_type": "execute",
+      "is_granted": true,
+      "expires_at": null,
       "granted_by": {
         "wallet_address": "0x...",
         "username": "creator123"
       },
-      "granted_at": "2024-12-04T10:30:00Z",
-      "revoked_at": null
+      "created_at": "2024-12-04T10:30:00Z"
     }
   ]
 }
@@ -1743,14 +1743,15 @@ Authorization: Bearer <access_token>
     "story_ip_id": "0x..."
   },
   "permissioned_address": "0xabc123...",
-  "permission_type": "signer",
-  "is_active": true,
+  "permission_type": "execute",
+  "is_granted": true,
+  "expires_at": null,
   "granted_by": {
     "wallet_address": "0x...",
     "username": "creator123"
   },
-  "granted_at": "2024-12-04T10:30:00Z",
-  "revoked_at": null
+  "transaction_hash": "0xdef456...",
+  "created_at": "2024-12-04T10:30:00Z"
 }
 ```
 
@@ -1779,7 +1780,8 @@ Content-Type: application/json
 {
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
-  "permission_type": "signer" // signer, register_derivative, or register_derivative_with_attribution
+  "permission_type": "execute",
+  "expires_at": "2025-12-31T23:59:59Z" // optional - null for no expiration
 }
 ```
 
@@ -1795,9 +1797,10 @@ Content-Type: application/json
       "title": "Mystical Forest Path"
     },
     "permissioned_address": "0xabc123...",
-    "permission_type": "signer",
-    "is_active": true,
-    "granted_at": "2024-12-04T10:30:00Z"
+    "permission_type": "execute",
+    "is_granted": true,
+    "expires_at": "2025-12-31T23:59:59Z",
+    "created_at": "2024-12-04T10:30:00Z"
   },
   "tx_hash": "0xdef456..."
 }
@@ -1811,9 +1814,12 @@ Content-Type: application/json
 - `500 Internal Server Error` - Blockchain transaction failed
 
 **Permission Types:**
-- `signer` - Can sign on behalf of the IP
+- `execute` - Can execute transactions on behalf of the IP
+- `transfer_erc20` - Can transfer ERC20 tokens held by the IP account
+- `set_metadata` - Can update IP metadata
+- `attach_license` - Can attach license terms
 - `register_derivative` - Can register derivatives
-- `register_derivative_with_attribution` - Can register derivatives with attribution
+- `collect_royalty` - Can collect royalties
 
 ---
 
@@ -1837,9 +1843,12 @@ Content-Type: application/json
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
   "permissions": {
-    "signer": true,
+    "execute": true,
+    "transfer_erc20": false,
+    "set_metadata": false,
+    "attach_license": false,
     "register_derivative": true,
-    "register_derivative_with_attribution": false
+    "collect_royalty": false
   }
 }
 ```
@@ -1851,16 +1860,28 @@ Content-Type: application/json
   "message": "All permissions set successfully",
   "permissions": [
     {
-      "permission_type": "signer",
-      "is_active": true
+      "permission_type": "execute",
+      "is_granted": true
+    },
+    {
+      "permission_type": "transfer_erc20",
+      "is_granted": false
+    },
+    {
+      "permission_type": "set_metadata",
+      "is_granted": false
+    },
+    {
+      "permission_type": "attach_license",
+      "is_granted": false
     },
     {
       "permission_type": "register_derivative",
-      "is_active": true
+      "is_granted": true
     },
     {
-      "permission_type": "register_derivative_with_attribution",
-      "is_active": false
+      "permission_type": "collect_royalty",
+      "is_granted": false
     }
   ],
   "tx_hash": "0xdef456..."
@@ -1895,7 +1916,7 @@ Content-Type: application/json
 {
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
-  "permission_type": "signer"
+  "permission_type": "execute"
 }
 ```
 
@@ -1906,8 +1927,8 @@ Content-Type: application/json
   "message": "Permission revoked successfully",
   "permission": {
     "uuid": "...",
-    "is_active": false,
-    "revoked_at": "2024-12-04T15:00:00Z"
+    "is_granted": false,
+    "updated_at": "2024-12-04T15:00:00Z"
   },
   "tx_hash": "0xdef456..."
 }
@@ -1949,7 +1970,7 @@ Content-Type: application/json
 {
   "success": true,
   "message": "All permissions revoked successfully",
-  "revoked_count": 3,
+  "revoked_count": 6,
   "tx_hash": "0xdef456..."
 }
 ```
@@ -1987,9 +2008,10 @@ Authorization: Bearer <access_token>
     {
       "uuid": "...",
       "permissioned_address": "0xabc123...",
-      "permission_type": "signer",
-      "is_active": true,
-      "granted_at": "2024-12-04T10:30:00Z"
+      "permission_type": "execute",
+      "is_granted": true,
+      "expires_at": null,
+      "created_at": "2024-12-04T10:30:00Z"
     }
   ]
 }
@@ -2025,9 +2047,10 @@ Authorization: Bearer <access_token>
   "has_permission": true,
   "permission": {
     "uuid": "...",
-    "permission_type": "signer",
-    "is_active": true,
-    "granted_at": "2024-12-04T10:30:00Z"
+    "permission_type": "execute",
+    "is_granted": true,
+    "expires_at": null,
+    "created_at": "2024-12-04T10:30:00Z"
   }
 }
 ```
@@ -2061,12 +2084,15 @@ Authorization: Bearer <access_token>
   "asset_uuid": "...",
   "permissioned_address": "0xabc123...",
   "permissions": {
-    "signer": true,
+    "execute": true,
+    "transfer_erc20": false,
+    "set_metadata": false,
+    "attach_license": false,
     "register_derivative": true,
-    "register_derivative_with_attribution": false
+    "collect_royalty": false
   },
   "active_count": 2,
-  "total_count": 3
+  "total_count": 6
 }
 ```
 

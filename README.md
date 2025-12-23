@@ -6,7 +6,13 @@
 [![Clone Recursive](https://img.shields.io/badge/clone---recursive-2ea44f?logo=git&logoColor=white)](#clone-with-submodules)
 
 ## Video Preview
-[![Watch the demo video](https://img.shields.io/badge/Watch-Demo%20Video-0A7EA4?logo=youtube&logoColor=white)](media/Lore__AI-Powered_IP_for_Creators.mp4)
+<p align="center">
+  <video src="media/Lore__AI-Powered_IP_for_Creators.mp4" width="500px" controls></video>
+</p>
+
+<video src="media/Lore__AI-Powered_IP_for_Creators.mp4" width="320" height="240" controls></video>
+
+![non working video](media/Lore__AI-Powered_IP_for_Creators.mp4)
 
 This repository tracks the frontend and backend as submodules so collaborators can pull everything from a single place.
 

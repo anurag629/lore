@@ -7,12 +7,8 @@
 
 ## Video Preview
 <p align="center">
-  <video src="media/Lore__AI-Powered_IP_for_Creators.mp4" width="500px" controls></video>
+  <video src="[media/Lore__AI-Powered_IP_for_Creators.mp4](https://github.com/anurag629/lore/blob/main/media/Lore__AI-Powered_IP_for_Creators.mp4)" width="500px" controls></video>
 </p>
-
-<video src="media/Lore__AI-Powered_IP_for_Creators.mp4" width="320" height="240" controls></video>
-
-![non working video](media/Lore__AI-Powered_IP_for_Creators.mp4)
 
 This repository tracks the frontend and backend as submodules so collaborators can pull everything from a single place.
 

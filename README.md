@@ -8,11 +8,11 @@
 ## Video Preview
 <p align="center">
   <a href="https://youtu.be/JJD5tTtO6eU">
-    <img src="https://img.youtube.com/vi/JJD5tTtO6eU/hqdefault.jpg" alt="Watch the video on YouTube" width="500px" />
+    <img src="https://i.sstatic.net/Vp2cE.png" alt="Watch the video" width="500px" />
   </a>
 </p>
 
-[Watch on YouTube](https://youtu.be/JJD5tTtO6eU)
+[![Watch the video](https://i.sstatic.net/Vp2cE.png)](https://youtu.be/JJD5tTtO6eU)
 
 This repository tracks the frontend and backend as submodules so collaborators can pull everything from a single place.
 

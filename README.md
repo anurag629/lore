@@ -6,13 +6,11 @@
 [![Clone Recursive](https://img.shields.io/badge/clone---recursive-2ea44f?logo=git&logoColor=white)](#clone-with-submodules)
 
 ## Video Preview
-<p align="center">
-  <a href="https://youtu.be/JJD5tTtO6eU">
-    <img src="https://i.sstatic.net/Vp2cE.png" alt="Watch the video" width="500px" />
-  </a>
-</p>
 
-[![Watch the video](https://i.sstatic.net/Vp2cE.png)](https://youtu.be/JJD5tTtO6eU)
+
+https://github.com/user-attachments/assets/0b702130-c1c1-4c98-8d69-d0442cdab184
+
+
 
 This repository tracks the frontend and backend as submodules so collaborators can pull everything from a single place.
 

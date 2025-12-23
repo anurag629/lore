@@ -6,6 +6,11 @@
 [![Submodules](https://img.shields.io/badge/git-submodules-555?logo=git&logoColor=white)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 [![Clone Recursive](https://img.shields.io/badge/clone---recursive-2ea44f?logo=git&logoColor=white)](#clone-with-submodules)
 
+## Video Preview
+<video src="media/Lore__AI-Powered_IP_for_Creators.mp4" controls width="100%" preload="metadata">
+  Your browser does not support the video tag. View the MP4 directly in the repository.
+</video>
+
 This is the wrapper repo for the Surreal World Assets Buildathon project. It tracks the frontend and backend as submodules so judges and collaborators can pull everything from a single place.
 
 ## Repos
@@ -41,4 +46,11 @@ git push
 - Backend: `cd lore_backend && python -m venv venv && venv\Scripts\activate && pip install -r requirements/base.txt && python manage.py migrate && python manage.py runserver`
 
 Refer to each submodule’s README for environment variables and detailed steps.
+
+## Media
+- `media/Lore__AI-Powered_IP_for_Creators.mp4` – short product video
+- `media/Lore_The_Operating_System_for_Creative_IP.pdf` – overview deck
+
+## PDF Preview
+- [View overview deck](media/Lore_The_Operating_System_for_Creative_IP.pdf)
 
